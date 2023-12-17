@@ -16,6 +16,6 @@ class LaravelEnvatoFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'laravel envato installer';
+        return 'laravel-envato';
     }
 }

@@ -14,29 +14,29 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
         /*
          * Optional methods to load your package assets
          */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel envato installer');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel envato installer');
+        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-envato');
+        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-envato');
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('laravel envato installer.php'),
+                __DIR__.'/../config/config.php' => config_path('envato.php'),
             ], 'config');
 
             // Publishing the views.
             /*$this->publishes([
-                __DIR__.'/../resources/views' => resource_path('views/vendor/laravel envato installer'),
+                __DIR__.'/../resources/views' => resource_path('views/vendor/laravel-envato'),
             ], 'views');*/
 
             // Publishing assets.
             /*$this->publishes([
-                __DIR__.'/../resources/assets' => public_path('vendor/laravel envato installer'),
+                __DIR__.'/../resources/assets' => public_path('vendor/laravel-envato'),
             ], 'assets');*/
 
             // Publishing the translation files.
             /*$this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/vendor/laravel envato installer'),
+                __DIR__.'/../resources/lang' => resource_path('lang/vendor/laravel-envato'),
             ], 'lang');*/
 
             // Registering package commands.
@@ -50,10 +50,10 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel envato installer');
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'envato');
 
         // Register the main class to use with the facade
-        $this->app->singleton('laravel envato installer', function () {
+        $this->app->singleton('laravel-envato', function () {
             return new LaravelEnvato;
         });
     }
