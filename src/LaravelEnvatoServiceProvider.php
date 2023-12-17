@@ -5,8 +5,15 @@ namespace Laltu\LaravelEnvato;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Laltu\LaravelEnvato\Livewire\Dashboard;
+use Laltu\LaravelEnvato\Facades\LaravelEnvato;
+use Laltu\LaravelEnvato\Livewire\AdminSetup;
+use Laltu\LaravelEnvato\Livewire\Complete;
 use Illuminate\Contracts\Foundation\Application;
+use Laltu\LaravelEnvato\Livewire\DatabaseSetup;
+use Laltu\LaravelEnvato\Livewire\Installation;
+use Laltu\LaravelEnvato\Livewire\MailSetup;
+use Laltu\LaravelEnvato\Livewire\PreInstallation;
+use Laltu\LaravelEnvato\Livewire\PurchaseCode;
 use Livewire\Livewire;
 
 class LaravelEnvatoServiceProvider extends ServiceProvider
@@ -19,10 +26,10 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
         /*
          * Optional methods to load your package assets
          */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-envato');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-envato');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+//         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-envato');
+//         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-envato');
+//         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+//         $this->loadRoutesFrom(__DIR__.'../../routes.php');
 
         $this->registerAuthorization();
         $this->registerRoutes();
@@ -60,11 +67,11 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'envato');
+        $this->mergeConfigFrom(__DIR__.'/../config/laravel-envato.php', 'envato');
 
         // Register the main class to use with the facade
         $this->app->singleton('laravel-envato', function () {
-            return new LaravelEnvato;
+            return new \Laltu\LaravelEnvato\Facades\LaravelEnvato();
         });
     }
 
@@ -83,7 +90,7 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
      */
     protected function registerResources(): void
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-maker');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-envato');
     }
 
     protected function registerRoutes(): void
@@ -96,7 +103,8 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
     protected function routeConfiguration(): array
     {
         return [
-            'prefix' => config('laravel-envato.prefix', 'laravel-envato'),
+            'prefix' => config('laravel-envato.prefix', 'install'),
+            'as' => config('laravel-envato.name', 'install.'),
             'middleware' => config('laravel-envato.middleware'),
         ];
     }
@@ -108,6 +116,12 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
      */
     protected function registerLivewireComponents(): void
     {
-        Livewire::component('laravel-envato.dashboard', Dashboard::class);
+        Livewire::component('laravel-envato.init', Installation::class);
+        Livewire::component('laravel-envato.admin-setup', AdminSetup::class);
+        Livewire::component('laravel-envato.database-setup', DatabaseSetup::class);
+        Livewire::component('laravel-envato.mail-setup', MailSetup::class);
+        Livewire::component('laravel-envato.purchase-code', PurchaseCode::class);
+        Livewire::component('laravel-envato.pre-installation', PreInstallation::class);
+        Livewire::component('laravel-envato.complete', Complete::class);
     }
 }

@@ -10,14 +10,14 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:300,400,500,600" rel="stylesheet"/>
 
-    {!! \Laltu\LaravelEnvato\LaravelEnvato::css() !!}
+    {!! \Laltu\LaravelEnvato\Facades\LaravelEnvato::css() !!}
 
     @livewireStyles
 
-    {!! \Laltu\LaravelEnvato\LaravelEnvato::js() !!}
+    {!! \Laltu\LaravelEnvato\Facades\LaravelEnvato::js() !!}
 </head>
 <body class="font-sans antialiased">
-<livewire:laravel-envato.dashboard>
+<livewire:laravel-envato.init>
 @livewireScripts
 @stack('scripts')
 </body>

@@ -5,13 +5,13 @@ namespace Laltu\LaravelEnvato\Livewire;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
 
-class Dashboard extends Component
+class Complete extends Component
 {
     /**
      * Render the component.
      */
     public function render(): Renderable
     {
-        return view('laravel-envato::livewire.dashboard')->extends('laravel-maker::components.layouts.app');
+        return view('laravel-envato::livewire.complete')->extends('laravel-envato::components.layouts.app');
     }
 }
