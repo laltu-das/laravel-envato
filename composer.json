@@ -1,0 +1,54 @@
+{
+    "name": "laltu/laravel-envato",
+    "description": "laravel envato",
+    "keywords": [
+        "laltu",
+        "laravel envato"
+    ],
+    "homepage": "https://github.com/laltu/laravel-envato",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "laltu das",
+            "email": "laltu.lspl@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.17",
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laltu\\LaravelEnvato\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Laltu\\LaravelEnvato\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laltu\\LaravelEnvato\\LaravelEnvatoServiceProvider"
+            ],
+            "aliases": {
+                "LaravelEnvatoInstaller": "Laltu\\LaravelEnvato\\LaravelEnvatoFacade"
+            }
+        }
+    }
+}
