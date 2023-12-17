@@ -31,7 +31,7 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('envato.php'),
+                __DIR__.'/../config/laravel-envato.php' => config_path('envato.php'),
             ], 'config');
 
             // Publishing the views.
