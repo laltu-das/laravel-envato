@@ -1,13 +1,13 @@
 <?php
 
-namespace Laltu\LaravelEnvato;
+namespace Laltu\LaravelEnvato\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Laltu\LaravelEnvatoInstaller\Skeleton\SkeletonClass
  */
-class LaravelEnvatoFacade extends Facade
+class Envato extends Facade
 {
     /**
      * Get the registered name of the component.

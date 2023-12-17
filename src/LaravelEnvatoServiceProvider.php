@@ -108,6 +108,6 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
      */
     protected function registerLivewireComponents(): void
     {
-        Livewire::component('laravel-maker.dashboard', Dashboard::class);
+        Livewire::component('laravel-envato.dashboard', Dashboard::class);
     }
 }

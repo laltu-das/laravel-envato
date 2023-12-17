@@ -12,6 +12,6 @@ class Dashboard extends Component
      */
     public function render(): Renderable
     {
-        return view('laravel-maker::livewire.dashboard')->extends('laravel-maker::components.layouts.app');
+        return view('laravel-envato::livewire.dashboard')->extends('laravel-maker::components.layouts.app');
     }
 }

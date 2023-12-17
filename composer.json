@@ -62,7 +62,7 @@
                 "Laltu\\LaravelEnvato\\LaravelEnvatoServiceProvider"
             ],
             "aliases": {
-                "LaravelEnvatoInstaller": "Laltu\\LaravelEnvato\\LaravelEnvatoFacade"
+                "LaravelEnvatoInstaller": "Envato"
             }
         }
     }
