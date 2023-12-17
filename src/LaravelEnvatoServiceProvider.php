@@ -2,14 +2,19 @@
 
 namespace Laltu\LaravelEnvato;
 
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laltu\LaravelEnvato\Livewire\Dashboard;
+use Illuminate\Contracts\Foundation\Application;
+use Livewire\Livewire;
 
 class LaravelEnvatoServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
      */
-    public function boot()
+    public function boot(): void
     {
         /*
          * Optional methods to load your package assets
@@ -18,6 +23,11 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-envato');
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
+
+        $this->registerAuthorization();
+        $this->registerRoutes();
+        $this->registerResources();
+        $this->registerLivewireComponents();
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -47,7 +57,7 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
     /**
      * Register the application services.
      */
-    public function register()
+    public function register(): void
     {
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'envato');
@@ -56,5 +66,48 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
         $this->app->singleton('laravel-envato', function () {
             return new LaravelEnvato;
         });
+    }
+
+    /**
+     * Register the package authorization.
+     */
+    protected function registerAuthorization(): void
+    {
+        $this->callAfterResolving(Gate::class, function (Gate $gate, Application $app) {
+            $gate->define('viewPulse', fn ($user = null) => $app->environment('local'));
+        });
+    }
+
+    /**
+     * Register the package's resources.
+     */
+    protected function registerResources(): void
+    {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-maker');
+    }
+
+    protected function registerRoutes(): void
+    {
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        });
+    }
+
+    protected function routeConfiguration(): array
+    {
+        return [
+            'prefix' => config('laravel-envato.prefix', 'laravel-envato'),
+            'middleware' => config('laravel-envato.middleware'),
+        ];
+    }
+
+    /**
+     * Register Livewire components.
+     *
+     * @return void
+     */
+    protected function registerLivewireComponents(): void
+    {
+        Livewire::component('laravel-maker.dashboard', Dashboard::class);
     }
 }
