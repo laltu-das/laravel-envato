@@ -5,7 +5,7 @@
                 <div class="card-body flex flex-col justify-center items-center">
                     <div class="mar-ver pad-btm text-center">
                         <div class="flex justify-center">
-logo
+                            logo
                         </div>
                         @if (session()->has('error'))
                             <div role="alert">
