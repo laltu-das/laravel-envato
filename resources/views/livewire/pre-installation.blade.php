@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xl-6 mx-auto">
+    <div class="col-xl-8 mx-auto">
         <div class="card">
             <div class="card-body flex flex-col justify-center items-center">
                 <div class="mar-ver pad-btm text-center">
@@ -7,7 +7,6 @@
                     <p class="mt-2">We ran diagnosis on your server. Review the items that have a red mark on it.
                         <br> If everything is green, you are good to go to the next step.</p>
                 </div>
-
                 <table class="mt-5 leading-normal">
                     <thead>
                     <tr>
@@ -19,14 +18,16 @@
                         </th>
                     </tr>
                     </thead>
-
                     <tbody>
                     @foreach ($extensions as $label => $satisfied)
                         <tr>
                             <td class="px-5 py-2 border-b border-gray-200 bg-white text-sm">{{ $label }}</td>
-
                             <td class="px-5 py-2 border-b border-gray-200 bg-white text-sm">
-                                <i class="{{ $satisfied ? 'check' : 'cross' }} mx-auto"></i>
+                                 @if($satisfied)
+                                    <x-laravel-envato::check-circle/>
+                                @else
+                                    <x-laravel-envato::x-circle/>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -45,19 +46,23 @@
                     @foreach ($directories as $label => $satisfied)
                         <tr>
                             <td class="px-5 py-2 border-b border-gray-200 bg-white text-sm">{{ $label }}</td>
-
                             <td class="px-5 py-2 border-b border-gray-200 bg-white text-sm">
-                                <i class="{{ $satisfied ? 'check' : 'cross' }} mx-auto"></i>
+                                @if($satisfied)
+                                    <x-laravel-envato::check-circle/>
+                                @else
+                                    <x-laravel-envato::x-circle/>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
                 <p class="text-center mt-8">
-                    <a href="{{ $satisfied ? route('install.purchase-code') : '#' }}"
-                       class="btn btn-indigo {{ $satisfied ? 'hover:bg-indigo-800' : 'disabled_button' }}" {{ !$satisfied ? '' : 'disabled' }}>
-                        Next Step >>
-                    </a>
+                    <x-laravel-envato::link
+                            href="{{ $satisfied ? route('install.purchase-code') : '#' }}"
+                       class="btn btn-indigo {{ $satisfied ? 'hover:bg-indigo-800' : 'disabled_button' }}">
+                        Next Step
+                    </x-laravel-envato::link>
                 </p>
             </div>
         </div>

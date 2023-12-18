@@ -10,8 +10,8 @@
                         </p>
                     </div>
                     <div class="text-center mt-8">
-                        <a target="_blank" href="{{ env('APP_URL') }}" class="btn btn-indigo hover:bg-indigo-800">Homepage</a>
-                        <a target="_blank" href="{{ env('APP_URL') }}/login" class="btn btn-indigo hover:bg-indigo-800">Admin Dashboard</a>
+                        <x-laravel-envato::link target="_blank" href="{{ env('APP_URL') }}" class="btn btn-indigo hover:bg-indigo-800">Homepage</x-laravel-envato::link>
+                        <x-laravel-envato::link target="_blank" href="{{ env('APP_URL') }}/login" class="btn btn-indigo hover:bg-indigo-800">Admin Dashboard</x-laravel-envato::link>
                     </div>
                 </div>
             </div>

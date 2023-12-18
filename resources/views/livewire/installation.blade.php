@@ -41,9 +41,9 @@
                 </p>
                 <br>
                 <div class="text-center">
-                    <a href="{{ route('install.pre-installation') }}" class="btn btn-indigo hover:bg-indigo-800">
+                    <x-laravel-envato::link href="{{ route('install.pre-installation') }}" class="btn btn-indigo hover:bg-indigo-800">
                         Next Step >>
-                    </a>
+                    </x-laravel-envato::link>
                 </div>
             </div>
         </div>

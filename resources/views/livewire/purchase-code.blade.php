@@ -20,18 +20,18 @@
                         </div>
                     @endif
                     <h1 class="h3 text-2xl font-bold mt-4">Purchase Code</h1>
-                    <p class="mt-2 ">
+                    <p class="mt-2">
                         Provide your CodeCanyon purchase code.<br>
                     </p>
                 </div>
                 <div class="text-muted font-13">
                     <form wire:submit="submit">
                         <div class="mt-7 mb-8 w-full">
-                            <label class="form-label text-center" for="purchase_code">Purchase Code:</label>
-                            <x-laravel-envato::input type="text" wire:model="purchase_code" id="purchase_code" name="purchase_code" class="form-input" placeholder="Enter random value!" />
+                            <x-laravel-envato::label for="purchase_code">Purchase Code:</x-laravel-envato::label>
+                            <x-laravel-envato::input type="text" wire:model="purchase_code" id="purchase_code" name="purchase_code" placeholder="Enter random value!" />
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-indigo hover:bg-indigo-800">Next Step >></button>
+                            <x-laravel-envato::button type="submit" class="btn btn-indigo hover:bg-indigo-800">Next Step >></x-laravel-envato::button>
                         </div>
                     </form>
                 </div>
