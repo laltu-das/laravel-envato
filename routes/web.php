@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use Laltu\LaravelEnvato\Livewire\AdminSetup;
 use Laltu\LaravelEnvato\Livewire\Complete;

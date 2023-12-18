@@ -2,6 +2,7 @@
 
 namespace Laltu\LaravelEnvato;
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -16,6 +17,7 @@ use Laltu\LaravelEnvato\Livewire\PreInstallation;
 use Laltu\LaravelEnvato\Livewire\PurchaseCode;
 use Illuminate\View\Compilers\BladeCompiler;
 
+use Laltu\LaravelEnvato\Middleware\LicenseGuardMiddleware;
 use Livewire\Livewire;
 
 class LaravelEnvatoServiceProvider extends ServiceProvider
@@ -23,7 +25,7 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      */
-    public function boot(): void
+    public function boot(Router $router): void
     {
         /*
          * Optional methods to load your package assets
@@ -32,6 +34,7 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
 //         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-envato');
 //         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 //         $this->loadRoutesFrom(__DIR__.'../../routes.php');
+        $this->loadMiddlewares($router);
 
         $this->registerAuthorization();
         $this->registerRoutes();
@@ -131,5 +134,16 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
 
         return $this;
 
+    }
+
+
+    /**
+     * Load custom middlewares
+     *
+     * @param Router $router
+     */
+    private function loadMiddlewares(Router $router): void
+    {
+        $router->aliasMiddleware('license-connector', LicenseGuardMiddleware::class);
     }
 }
