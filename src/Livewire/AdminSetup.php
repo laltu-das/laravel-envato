@@ -3,6 +3,7 @@
 namespace Laltu\LaravelEnvato\Livewire;
 
 use Illuminate\Contracts\Support\Renderable;
+use Laltu\LaravelEnvato\View\Components\AppLayout;
 use Livewire\Component;
 
 class AdminSetup extends Component
@@ -12,6 +13,6 @@ class AdminSetup extends Component
      */
     public function render(): Renderable
     {
-        return view('laravel-envato::livewire.admin-setup')->extends('laravel-envato::components.layouts.app');
+        return view('laravel-envato::livewire.admin-setup')->layout(AppLayout::class);
     }
 }

@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="text-muted font-13">
-                        <form method="POST" action="{{ route('install.mail_setup.save') }}">
+                        <form method="POST" wire:submit="submit">
                             @csrf
                             <div class="flex justify-center">
                                 <label class="inline-flex items-center mt-3">

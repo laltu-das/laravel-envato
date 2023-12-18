@@ -6,5 +6,10 @@
         <entry key="LaravelIdeaSettings.switchedToPackageDevelopment" value="true" />
       </map>
     </option>
+    <option name="generationStringOptionValues">
+      <map>
+        <entry key="createBladeComponent.type" value="Class and blade" />
+      </map>
+    </option>
   </component>
 </project>

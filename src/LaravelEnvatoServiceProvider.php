@@ -14,6 +14,8 @@ use Laltu\LaravelEnvato\Livewire\Installation;
 use Laltu\LaravelEnvato\Livewire\MailSetup;
 use Laltu\LaravelEnvato\Livewire\PreInstallation;
 use Laltu\LaravelEnvato\Livewire\PurchaseCode;
+use Illuminate\View\Compilers\BladeCompiler;
+
 use Livewire\Livewire;
 
 class LaravelEnvatoServiceProvider extends ServiceProvider
@@ -112,16 +114,22 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
     /**
      * Register Livewire components.
      *
-     * @return void
+     * @return LaravelEnvatoServiceProvider
      */
-    protected function registerLivewireComponents(): void
+    protected function registerLivewireComponents(): LaravelEnvatoServiceProvider
     {
-        Livewire::component('laravel-envato.init', Installation::class);
-        Livewire::component('laravel-envato.admin-setup', AdminSetup::class);
-        Livewire::component('laravel-envato.database-setup', DatabaseSetup::class);
-        Livewire::component('laravel-envato.mail-setup', MailSetup::class);
-        Livewire::component('laravel-envato.purchase-code', PurchaseCode::class);
-        Livewire::component('laravel-envato.pre-installation', PreInstallation::class);
-        Livewire::component('laravel-envato.complete', Complete::class);
+        $this->callAfterResolving(BladeCompiler::class, function () {
+
+            Livewire::component('laravel-envato.installation', Installation::class);
+            Livewire::component('laravel-envato.admin-setup', AdminSetup::class);
+            Livewire::component('laravel-envato.database-setup', DatabaseSetup::class);
+            Livewire::component('laravel-envato.mail-setup', MailSetup::class);
+            Livewire::component('laravel-envato.purchase-code', PurchaseCode::class);
+            Livewire::component('laravel-envato.pre-installation', PreInstallation::class);
+            Livewire::component('laravel-envato.complete', Complete::class);
+        });
+
+        return $this;
+
     }
 }

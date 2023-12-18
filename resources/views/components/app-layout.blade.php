@@ -17,7 +17,7 @@
     {!! \Laltu\LaravelEnvato\Facades\LaravelEnvato::js() !!}
 </head>
 <body class="font-sans antialiased">
-<livewire:laravel-envato.init>
+{{ $slot }}
 @livewireScripts
 @stack('scripts')
 </body>

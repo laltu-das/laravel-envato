@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="text-muted font-13">
-                        <form method="POST" action="{{ route('install.db') }}">
+                        <form method="POST" wire:submit="submit">
                             @csrf
                             <div class="flex flex-wrap -mb-8 -mr-6 p-8">
                                 <div class="pb-8 pr-6 w-full lg:w-1/3">
