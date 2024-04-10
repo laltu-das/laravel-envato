@@ -2,11 +2,17 @@
 
 namespace Laltu\LaravelEnvato\Http\Middleware;
 
-use Laltu\LaravelEnvato\Middleware\Closure;
-use Laltu\LaravelEnvato\Middleware\Request;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class LicenseGuardMiddleware
 {
+    /**
+     * Handle an incoming request.
+     *
+     * @param Closure(Request): (Response) $next
+     */
     public function handle(Request $request, Closure $next){
     }
 }

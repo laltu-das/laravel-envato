@@ -67,7 +67,7 @@ class InstallPresetCommand extends Command implements PromptsForMissingInput
      */
     protected function installInertiaVueStack(): int
     {
-        // Update NPM packages for Vue stack
+        // UpdateMiddleware NPM packages for Vue stack
         $this->updateNodePackages(fn($packages) => [
             "@vueuse/core" => "^10.6.1",
             "classnames" => "^2.3.2",
@@ -77,7 +77,7 @@ class InstallPresetCommand extends Command implements PromptsForMissingInput
             "nanoid" => "^5.0.4"
         ]);
 
-        // Update additional NPM packages for Vue stack
+        // UpdateMiddleware additional NPM packages for Vue stack
         $this->updateNodePackages(fn($packages) => [
             "laravel-precognition-vue-inertia" => "^0.5.2"
         ], false);
@@ -101,7 +101,7 @@ class InstallPresetCommand extends Command implements PromptsForMissingInput
     }
 
     /**
-     * Update the "package.json" file with the provided callback.
+     * UpdateMiddleware the "package.json" file with the provided callback.
      *
      * @param callable $callback
      * @param bool $dev
@@ -167,7 +167,7 @@ class InstallPresetCommand extends Command implements PromptsForMissingInput
      */
     protected function installInertiaReactStack(): int
     {
-        // Update NPM packages for React stack
+        // UpdateMiddleware NPM packages for React stack
         $this->updateNodePackages(fn($packages) => [
             '@headlessui/react' => '^1.4.2',
             '@inertiajs/react' => '^1.0.0',

@@ -2,9 +2,10 @@
 
 namespace Laltu\LaravelEnvato\Http\Controllers;
 
-use App\Services\EnvironmentManager;
-use App\Services\PermissionsChecker;
+use Laltu\LaravelEnvato\Services\EnvironmentManager;
+use Laltu\LaravelEnvato\Services\PermissionsChecker;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
@@ -38,7 +39,7 @@ class InstallationController extends Controller
     public function showFolderPermissions(PermissionsChecker $permissionsChecker)
     {
         $permissions = $permissionsChecker->check(
-            config('installer.permissions')
+            config('laravel-envato.permissions')
         );
 
         return Inertia::render('FolderPermissions', $permissions);
