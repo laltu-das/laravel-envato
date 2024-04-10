@@ -25,7 +25,7 @@ setTimeout(() => {
 }, 1000)
 
 function redirectToDashboard() {
-    router.visit('/dashboard')
+    router.visit('/')
 }
 
 </script>

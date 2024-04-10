@@ -29,7 +29,7 @@ class InstalledFileManager
     }
 
     /**
-     * UpdateMiddleware installed file.
+     * Upgrade installed file.
      *
      * @return int
      */

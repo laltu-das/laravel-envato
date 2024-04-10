@@ -6,12 +6,11 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 const currentStep = ref(1);
 
 const steps = [
-  {label: 'Getting Started', href: 'install.getting-started', component: 'GettingStarted'},
   {label: 'Requirements', href: 'install.server-requirements', component: 'ServerRequirements'},
   {label: 'Permissions', href: 'install.folder-permissions', component: 'FolderPermissions'},
   {label: 'Environment', href: 'install.environment-variables', component: 'EnvironmentVariables'},
   {label: 'License', href: 'install.envato-license', component: 'EnvatoLicense'},
-  {label: 'Installation', href: 'install.installation-progress', component: 'InstallationProgress'},
+  {label: 'InstallationCheck', href: 'install.installation-progress', component: 'InstallationProgress'},
 ];
 
 </script>
@@ -19,10 +18,10 @@ const steps = [
 
 <template>
   <div class="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-    <ApplicationLogo class="h-16 mx-auto mb-6"/>
+    <ApplicationLogo class="h-16 mx-auto mb-6" v-if="!$page.component.startsWith('GettingStarted')"/>
 
     <!-- Sidebar for steps -->
-    <ul class="justify-between flex gap-3 mb-8 max-w-5xl">
+    <ul class="justify-between flex gap-3 mb-8 max-w-4xl" v-if="!$page.component.startsWith('GettingStarted')">
       <li v-for="(step, index) in steps" :key="index" class="group">
         <Link :href="route(step.href)"
               class="flex items-center px-4 py-2 transition-colors duration-150 rounded-md shadow"
@@ -37,7 +36,7 @@ const steps = [
     </ul>
 
     <!-- Main content with adjusted width and card design -->
-    <div class="bg-white shadow rounded p-8 mb-8 w-full max-w-5xl min-h-96 overflow-y-auto" style="height: 44rem">
+    <div class="bg-white shadow rounded p-8 mb-8 w-full max-w-4xl min-h-96 overflow-y-auto" style="height: 44rem">
       <slot/>
     </div>
   </div>

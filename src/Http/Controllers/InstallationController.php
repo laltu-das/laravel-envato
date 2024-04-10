@@ -88,21 +88,21 @@ class InstallationController extends Controller
     public function showInstallationProgress()
     {
         // Example installation steps
-        try {
-            // Run database migrations
-            Artisan::call('migrate', ['--force' => true]);
-
-            // Seed the database
-            Artisan::call('db:seed', ['--force' => true]);
-
-            // Perform any additional setup steps
-
-            // Return a successful response
-            return response()->json(['success' => true, 'message' => 'Installation completed successfully!']);
-        } catch (\Exception $e) {
-            // Handle errors and return a response
-            return response()->json(['success' => false, 'message' => 'Installation failed: ' . $e->getMessage()]);
-        }
+//        try {
+//            // Run database migrations
+//            Artisan::call('migrate', ['--force' => true]);
+//
+//            // Seed the database
+//            Artisan::call('db:seed', ['--force' => true]);
+//
+//            // Perform any additional setup steps
+//
+//            // Return a successful response
+//            return response()->json(['success' => true, 'message' => 'InstallationCheck completed successfully!']);
+//        } catch (\Exception $e) {
+//            // Handle errors and return a response
+//            return response()->json(['success' => false, 'message' => 'InstallationCheck failed: ' . $e->getMessage()]);
+//        }
 
         // You'll likely need to keep track of the progress in some way
         // (e.g., session, database)
@@ -115,11 +115,5 @@ class InstallationController extends Controller
         return inertia('InstallationProgress', [
             'installationProgress' => $installationProgress
         ]);
-    }
-
-    // Helper function (replace with your permission check logic)
-    private function isFolderWritable($folderPath)
-    {
-        return is_writable($folderPath);
     }
 }

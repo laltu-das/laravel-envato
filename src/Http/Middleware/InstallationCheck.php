@@ -4,9 +4,10 @@ namespace Laltu\LaravelEnvato\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Laltu\LaravelEnvato\Facades\LaravelEnvato;
 use Symfony\Component\HttpFoundation\Response;
 
-class InstallMiddleware
+class InstallationCheck
 {
     /**
      * Handle an incoming request.
@@ -15,12 +16,12 @@ class InstallMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $check = LaravelEnvato::checkInstall();
 
-        $routeName = config('laravel-envato.redirect.route.name');
-        $data = config('laravel-envato.redirect.route.message');
+        if (!$check) {
+            return redirect()->route('install.getting-started');
+        }
 
-        return redirect()->route($routeName)->with(['data' => $data]);
-
-//        return $next($request);
+        return $next($request);
     }
 }
