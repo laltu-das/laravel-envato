@@ -136,18 +136,16 @@ return [
     | canInstall middleware located in `canInstall.php`.
     |
     */
-    'installed' => [
-        'redirectOptions' => [
-            'route' => [
-                'name' => 'welcome',
-                'data' => [],
-            ],
-            'abort' => [
-                'type' => '404',
-            ],
-            'dump' => [
-                'data' => 'Dumping a not found message.',
-            ],
+    'redirect' => [
+        'route' => [
+            'name' => 'welcome',
+            'data' => [],
+        ],
+        'abort' => [
+            'type' => '404',
+        ],
+        'dump' => [
+            'data' => 'Dumping a not found message.',
         ],
     ],
 
@@ -161,7 +159,7 @@ return [
     | route, abort, dump, 404, default, ''
     |
     */
-    'installedAlreadyAction' => '',
+    'installedAlreadyAction' => 'route',
 
     /*
     |--------------------------------------------------------------------------

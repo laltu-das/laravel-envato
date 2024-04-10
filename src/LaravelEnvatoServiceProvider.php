@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 use Laltu\LaravelEnvato\Http\Middleware\InstallMiddleware;
 use Laltu\LaravelEnvato\Http\Middleware\LicenseGuardMiddleware;
+use Laltu\LaravelEnvato\Http\Middleware\VerifyEnvatoPurchase;
 
 class LaravelEnvatoServiceProvider extends ServiceProvider
 {
@@ -56,9 +57,9 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
      */
     private function loadMiddlewares(Router $router): void
     {
-//        $this->app->middleware([
-//            \Vendor\Package\Middleware\TestMiddleware::class
-//        ]);
+        $router->pushMiddlewareToGroup('web', VerifyEnvatoPurchase::class);
+        $router->pushMiddlewareToGroup('api', VerifyEnvatoPurchase::class);
+
         $router->aliasMiddleware('install', InstallMiddleware::class);
     }
 
@@ -74,7 +75,7 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
 
     protected function registerRoutes(): void
     {
-        Route::name('install.')->prefix('install')->group(function () {
+        Route::middleware([])->group(function () {
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });
     }

@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "baileyherbert/envato": "^3.1",
         "illuminate/support": "*",
         "inertiajs/inertia-laravel": "^1.0",
         "livewire/livewire": "^3.3",

@@ -7,15 +7,13 @@ use Laltu\LaravelEnvato\Services\PermissionsChecker;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Http;
-use Inertia\Inertia;
 
 class InstallationController extends Controller
 {
 
     public function showGettingStarted()
     {
-        return Inertia::render('GettingStarted');
+        return inertia('GettingStarted');
     }
 
     public function showServerRequirements()
@@ -33,7 +31,7 @@ class InstallationController extends Controller
             'XML PHP Extension' => extension_loaded('xml'),
         ];
 
-        return Inertia::render('ServerRequirements', ['requirements' => $requirements]);
+        return inertia('ServerRequirements', ['requirements' => $requirements]);
     }
 
     public function showFolderPermissions(PermissionsChecker $permissionsChecker)
@@ -42,14 +40,14 @@ class InstallationController extends Controller
             config('laravel-envato.permissions')
         );
 
-        return Inertia::render('FolderPermissions', $permissions);
+        return inertia('FolderPermissions', $permissions);
     }
 
     public function showEnvironmentVariables(EnvironmentManager $environmentManager)
     {
         $envVariables = $environmentManager->getEnvContent();
 
-        return Inertia::render('EnvironmentVariables', compact('envVariables'));
+        return inertia('EnvironmentVariables', compact('envVariables'));
     }
 
     public function submitEnvironmentVariables(EnvironmentManager $environmentManager)
@@ -61,28 +59,28 @@ class InstallationController extends Controller
 
     public function showEnvatoLicense()
     {
-        return Inertia::render('EnvatoLicense');
+        return inertia('EnvatoLicense');
     }
 
     public function submitEnvatoLicense(Request $request)
     {
         $licenseKey = $request->input('license_key');
-        $personalToken = env('ENVATO_PERSONAL_TOKEN');
+        $personalToken = '';
 
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $personalToken,
-        ])->get('https://api.envato.com/v3/market/author/sale', ['code' => $licenseKey]);
-
-        if ($response->successful()) {
-            $data = $response->json();
-            if (isset($data['item'])) {
-                // Assuming successful verification
-                return Inertia::render('EnvatoLicenseVerification', ['verification' => [
-                    'success' => true,
-                    'message' => 'License verified successfully!',
-                ]]);
-            }
-        }
+//        $response = Http::withHeaders([
+//            'Authorization' => 'Bearer ' . $personalToken,
+//        ])->get('https://api.envato.com/v3/market/author/sale', ['code' => $licenseKey]);
+//
+//        if ($response->successful()) {
+//            $data = $response->json();
+//            if (isset($data['item'])) {
+//                // Assuming successful verification
+//                return inertia('EnvatoLicenseVerification', ['verification' => [
+//                    'success' => true,
+//                    'message' => 'License verified successfully!',
+//                ]]);
+//            }
+//        }
 
         return redirect()->route('install.installation-progress');
     }
@@ -114,7 +112,7 @@ class InstallationController extends Controller
             // ...
         ];
 
-        return Inertia::render('InstallationProgress', [
+        return inertia('InstallationProgress', [
             'installationProgress' => $installationProgress
         ]);
     }
