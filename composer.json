@@ -18,7 +18,8 @@
     "require": {
         "php": "^8.2",
         "illuminate/support": "*",
-        "livewire/livewire": "^3.3"
+        "livewire/livewire": "^3.3",
+        "tightenco/ziggy": "^2.1"
     },
     "require-dev": {
         "orchestra/testbench": "^8.17",

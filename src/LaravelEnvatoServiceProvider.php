@@ -2,22 +2,20 @@
 
 namespace Laltu\LaravelEnvato;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Laltu\LaravelEnvato\Facades\LaravelEnvato;
+use Illuminate\View\Compilers\BladeCompiler;
+use Laltu\LaravelEnvato\Http\Middleware\LicenseGuardMiddleware;
 use Laltu\LaravelEnvato\Livewire\AdminSetup;
 use Laltu\LaravelEnvato\Livewire\Complete;
-use Illuminate\Contracts\Foundation\Application;
 use Laltu\LaravelEnvato\Livewire\DatabaseSetup;
 use Laltu\LaravelEnvato\Livewire\Installation;
 use Laltu\LaravelEnvato\Livewire\MailSetup;
 use Laltu\LaravelEnvato\Livewire\PreInstallation;
 use Laltu\LaravelEnvato\Livewire\PurchaseCode;
-use Illuminate\View\Compilers\BladeCompiler;
-
-use Laltu\LaravelEnvato\Middleware\LicenseGuardMiddleware;
 use Livewire\Livewire;
 
 class LaravelEnvatoServiceProvider extends ServiceProvider

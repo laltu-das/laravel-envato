@@ -1,18 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Laltu\LaravelEnvato\Livewire\AdminSetup;
-use Laltu\LaravelEnvato\Livewire\Complete;
-use Laltu\LaravelEnvato\Livewire\DatabaseSetup;
-use Laltu\LaravelEnvato\Livewire\Installation;
-use Laltu\LaravelEnvato\Livewire\MailSetup;
-use Laltu\LaravelEnvato\Livewire\PreInstallation;
-use Laltu\LaravelEnvato\Livewire\PurchaseCode;
+use Laltu\LaravelEnvato\Http\Controllers\InstallationController;
 
-Route::get('/', Installation::class)->name('init');
-Route::get('/pre-installation', PreInstallation::class)->name('pre-installation');
-Route::get('/admin-setup', AdminSetup::class)->name('admin-setup');
-Route::get('/mail-setup', MailSetup::class)->name('mail-setup');
-Route::get('/database-setup', DatabaseSetup::class)->name('database-setup');
-Route::get('/complete', Complete::class)->name('complete');
-Route::get('/purchase-code', PurchaseCode::class)->name('purchase-code');
+Route::group(['prefix' => 'install', 'middleware' => ['web', 'install']], function () {
+    Route::get('getting-started', [InstallationController::class, 'showGettingStarted'])->name('install.getting-started');
+    Route::get('server-requirements', [InstallationController::class, 'showServerRequirements'])->name('install.server-requirements');
+    Route::get('folder-permissions', [InstallationController::class, 'showFolderPermissions'])->name('install.folder-permissions');
+
+    Route::get('environment-variables', [InstallationController::class, 'showEnvironmentVariables'])->name('install.environment-variables');
+    Route::post('environment-variables', [InstallationController::class, 'submitEnvironmentVariables'])->name('install.environment-variables.submit');
+
+    Route::get('envato-license', [InstallationController::class, 'showEnvatoLicense'])->name('install.envato-license');
+    Route::post('envato-license', [InstallationController::class, 'submitEnvatoLicense'])->name('install.envato-license.submit');
+
+    Route::get('installation-progress', [InstallationController::class, 'showInstallationProgress'])->name('install.installation-progress');
+});
