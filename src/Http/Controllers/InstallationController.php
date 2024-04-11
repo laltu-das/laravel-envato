@@ -2,11 +2,14 @@
 
 namespace Laltu\LaravelEnvato\Http\Controllers;
 
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
 use Laltu\LaravelEnvato\Services\EnvironmentManager;
 use Laltu\LaravelEnvato\Services\PermissionsChecker;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class InstallationController extends Controller
 {
@@ -87,6 +90,37 @@ class InstallationController extends Controller
 
     public function showInstallationProgress()
     {
+        $url = 'http://127.0.0.1:8001/download/dxffybtvDtkw29K4ImPC7whXVwFxLxnHUourwtST';
+
+        $response = Http::get($url);
+
+        if ($response->successful()) {
+            // Attempt to extract the filename from the Content-Disposition header
+            $contentDisposition = $response->header('Content-Disposition');
+            $filename = null;
+            if (!empty($contentDisposition)) {
+                $matches = [];
+                if (preg_match('/filename=["\']?([^"\']+)/', $contentDisposition, $matches)) {
+                    $filename = $matches[1];
+                }
+            }
+
+            // Fallback to extracting the filename from the URL
+//            if (empty($filename)) {
+//                $urlParts = parse_url('http://example.com/remote-file.pdf');
+//                $pathParts = pathinfo($urlParts['path']);
+//                $filename = $pathParts['basename'];
+//            }
+
+            // Define the save path using the extracted or fallback filename
+            $filePath = base_path($filename);
+
+            // Save the file
+            file_put_contents($filePath, $response->body());
+        } else {
+            echo "Failed to download the file.";
+        }
+
         // Example installation steps
 //        try {
 //            // Run database migrations
@@ -106,14 +140,14 @@ class InstallationController extends Controller
 
         // You'll likely need to keep track of the progress in some way
         // (e.g., session, database)
-        $installationProgress = [
-            'step1' => true, // Completed
-            'step2' => false, // In progress or not started
-            // ...
-        ];
-
-        return inertia('InstallationProgress', [
-            'installationProgress' => $installationProgress
-        ]);
+//        $installationProgress = [
+//            'step1' => true, // Completed
+//            'step2' => false, // In progress or not started
+//            // ...
+//        ];
+//
+//        return inertia('InstallationProgress', [
+//            'installationProgress' => $installationProgress
+//        ]);
     }
 }

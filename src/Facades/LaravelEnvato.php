@@ -16,6 +16,6 @@ class LaravelEnvato extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return \Laltu\LaravelEnvato\LaravelEnvato::class;
+        return \Laltu\LaravelEnvato\EnvatoManager::class;
     }
 }

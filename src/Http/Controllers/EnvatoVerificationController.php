@@ -15,15 +15,16 @@ class EnvatoVerificationController
 
     public function verify(Request $request)
     {
-        $verificationResult = LaravelEnvato::envato()->verify($request->purchase_code);
+        $request->validate([
+            'code' => 'required|string',
+        ]);
+
+        $verificationResult = LaravelEnvato::verify($request->purchase_code);
 
         if ($verificationResult->isVerified()) {
-            // Successful verification
-            // Store purchase code (securely, ideally in the database)
             Session::flash('success', 'Envato purchase key verified successfully!');
-            return redirect()->route('dashboard'); // Or any relevant route
+            return redirect()->route('dashboard');
         } else {
-            // Failed verification
             Session::flash('error', 'Invalid Envato purchase key.');
             return redirect()->back()->withInput();
         }

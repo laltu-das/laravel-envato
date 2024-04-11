@@ -18727,7 +18727,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }, 1000);
     function redirectToDashboard() {
-      _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_1__.router.visit('/');
+      _inertiajs_vue3__WEBPACK_IMPORTED_MODULE_1__.router.visit(route('welcome'));
     }
     var __returned__ = {
       installationSteps: installationSteps,
