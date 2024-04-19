@@ -2,14 +2,13 @@
 
 namespace Laltu\LaravelEnvato\Http\Controllers;
 
-use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
+use Laltu\LaravelEnvato\Http\Requests\EnvatoLicenseRequest;
 use Laltu\LaravelEnvato\Services\EnvironmentManager;
 use Laltu\LaravelEnvato\Services\PermissionsChecker;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Artisan;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class InstallationController extends Controller
 {
@@ -53,101 +52,57 @@ class InstallationController extends Controller
         return inertia('EnvironmentVariables', compact('envVariables'));
     }
 
-    public function submitEnvironmentVariables(EnvironmentManager $environmentManager)
-    {
-        $envVariables = $environmentManager->getEnvContent();
-
-        return redirect()->route('install.envato-license');
-    }
-
     public function showEnvatoLicense()
     {
         return inertia('EnvatoLicense');
     }
 
-    public function submitEnvatoLicense(Request $request)
+    public function submitEnvatoLicense(EnvatoLicenseRequest $request)
     {
-        $licenseKey = $request->input('license_key');
-        $personalToken = '';
+        $response = Http::acceptJson()->post('http://localhost:8001/api/product/sunt-qui-molestiae/verify', ['code' => $request->licenseKey]);
 
-//        $response = Http::withHeaders([
-//            'Authorization' => 'Bearer ' . $personalToken,
-//        ])->get('https://api.envato.com/v3/market/author/sale', ['code' => $licenseKey]);
-//
-//        if ($response->successful()) {
-//            $data = $response->json();
-//            if (isset($data['item'])) {
-//                // Assuming successful verification
-//                return inertia('EnvatoLicenseVerification', ['verification' => [
-//                    'success' => true,
-//                    'message' => 'License verified successfully!',
-//                ]]);
-//            }
-//        }
+        if ($response->successful()) {
+            $data = $response->json();
+            if (isset($data['token'])) {
+                // Assuming successful verification
+                $url = "https://support.scriptspheres.com/api/download-file/{$data['token']}";
+
+                $response = Http::acceptJson()->get($url);
+
+                if ($response->successful()) {
+                    // Attempt to extract the filename from the Content-Disposition header
+                    $contentDisposition = $response->header('Content-Disposition');
+                    $filename = null;
+                    if (!empty($contentDisposition)) {
+                        $matches = [];
+                        if (preg_match('/filename=["\']?([^"\']+)/', $contentDisposition, $matches)) {
+                            $filename = $matches[1];
+                        }
+                    }
+
+                    // Define the save path using the extracted or fallback filename
+                    $filePath = base_path($filename);
+
+                    // Save the file
+                    file_put_contents($filePath, $response->body());
+                } else {
+                    echo "Failed to download the file.";
+                }
+            }
+        }
 
         return redirect()->route('install.installation-progress');
+
     }
 
     public function showInstallationProgress()
     {
-        $url = 'http://127.0.0.1:8001/download/dxffybtvDtkw29K4ImPC7whXVwFxLxnHUourwtST';
+        $output = new BufferedOutput;
 
-        $response = Http::get($url);
+        Artisan::call('list', [], $output); // Example command 'list', change to your needed command
 
-        if ($response->successful()) {
-            // Attempt to extract the filename from the Content-Disposition header
-            $contentDisposition = $response->header('Content-Disposition');
-            $filename = null;
-            if (!empty($contentDisposition)) {
-                $matches = [];
-                if (preg_match('/filename=["\']?([^"\']+)/', $contentDisposition, $matches)) {
-                    $filename = $matches[1];
-                }
-            }
+        $content = $output->fetch(); // Get the output from the buffer
 
-            // Fallback to extracting the filename from the URL
-//            if (empty($filename)) {
-//                $urlParts = parse_url('http://example.com/remote-file.pdf');
-//                $pathParts = pathinfo($urlParts['path']);
-//                $filename = $pathParts['basename'];
-//            }
-
-            // Define the save path using the extracted or fallback filename
-            $filePath = base_path($filename);
-
-            // Save the file
-            file_put_contents($filePath, $response->body());
-        } else {
-            echo "Failed to download the file.";
-        }
-
-        // Example installation steps
-//        try {
-//            // Run database migrations
-//            Artisan::call('migrate', ['--force' => true]);
-//
-//            // Seed the database
-//            Artisan::call('db:seed', ['--force' => true]);
-//
-//            // Perform any additional setup steps
-//
-//            // Return a successful response
-//            return response()->json(['success' => true, 'message' => 'InstallationCheck completed successfully!']);
-//        } catch (\Exception $e) {
-//            // Handle errors and return a response
-//            return response()->json(['success' => false, 'message' => 'InstallationCheck failed: ' . $e->getMessage()]);
-//        }
-
-        // You'll likely need to keep track of the progress in some way
-        // (e.g., session, database)
-//        $installationProgress = [
-//            'step1' => true, // Completed
-//            'step2' => false, // In progress or not started
-//            // ...
-//        ];
-//
-//        return inertia('InstallationProgress', [
-//            'installationProgress' => $installationProgress
-//        ]);
+        return inertia('InstallationProgress',['output' => $content]);
     }
 }

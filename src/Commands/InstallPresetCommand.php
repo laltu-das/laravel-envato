@@ -1,6 +1,6 @@
 <?php
 
-namespace Laltu\LaravelUi\Commands;
+namespace Laltu\LaravelEnvato\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;

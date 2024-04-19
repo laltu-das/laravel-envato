@@ -26,33 +26,14 @@ class FinalInstallManager
     /**
      * Generate New Application Key.
      *
-     * @param  \Symfony\Component\Console\Output\BufferedOutput  $outputLog
-     * @return \Symfony\Component\Console\Output\BufferedOutput|array
+     * @param BufferedOutput $outputLog
+     * @return BufferedOutput|array
      */
     private static function generateKey(BufferedOutput $outputLog)
     {
         try {
             if (config('installer.final.key')) {
-                Artisan::call('key:generate', ['--force'=> true], $outputLog);
-            }
-        } catch (Exception $e) {
-            return static::response($e->getMessage(), $outputLog);
-        }
-
-        return $outputLog;
-    }
-
-    /**
-     * Publish vendor assets.
-     *
-     * @param  \Symfony\Component\Console\Output\BufferedOutput  $outputLog
-     * @return \Symfony\Component\Console\Output\BufferedOutput|array
-     */
-    private static function publishVendorAssets(BufferedOutput $outputLog)
-    {
-        try {
-            if (config('installer.final.publish')) {
-                Artisan::call('vendor:publish', ['--all' => true], $outputLog);
+                Artisan::call('key:generate', ['--force' => true], $outputLog);
             }
         } catch (Exception $e) {
             return static::response($e->getMessage(), $outputLog);
@@ -65,7 +46,7 @@ class FinalInstallManager
      * Return a formatted error messages.
      *
      * @param  $message
-     * @param  \Symfony\Component\Console\Output\BufferedOutput  $outputLog
+     * @param BufferedOutput $outputLog
      * @return array
      */
     private static function response($message, BufferedOutput $outputLog)
@@ -75,5 +56,24 @@ class FinalInstallManager
             'message' => $message,
             'dbOutputLog' => $outputLog->fetch(),
         ];
+    }
+
+    /**
+     * Publish vendor assets.
+     *
+     * @param BufferedOutput $outputLog
+     * @return BufferedOutput|array
+     */
+    private static function publishVendorAssets(BufferedOutput $outputLog)
+    {
+        try {
+            if (config('installer.final.publish')) {
+                Artisan::call('vendor:publish', ['--all' => true], $outputLog);
+            }
+        } catch (Exception $e) {
+            return static::response($e->getMessage(), $outputLog);
+        }
+
+        return $outputLog;
     }
 }

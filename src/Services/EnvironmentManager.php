@@ -8,15 +8,9 @@ use Illuminate\Support\Str;
 
 class EnvironmentManager
 {
-    /**
-     * @var string
-     */
-    private $envPath;
+    private string $envPath;
 
-    /**
-     * @var string
-     */
-    private $envExamplePath;
+    private string $envExamplePath;
 
     /**
      * Set the .env and .env.example paths.
@@ -46,7 +40,7 @@ class EnvironmentManager
     }
 
     /**
-     * Get the the .env file path.
+     * Get the .env file path.
      *
      * @return string
      */

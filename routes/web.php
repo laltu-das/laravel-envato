@@ -2,21 +2,30 @@
 
 use Illuminate\Support\Facades\Route;
 use Laltu\LaravelEnvato\Http\Controllers\EnvatoVerificationController;
+use Laltu\LaravelEnvato\Http\Controllers\IndexController;
 use Laltu\LaravelEnvato\Http\Controllers\InstallationController;
 
-Route::prefix('install')->name('install.')->group(function () {
-    Route::get('/', [InstallationController::class, 'showGettingStarted'])->name('getting-started');
-    Route::get('server-requirements', [InstallationController::class, 'showServerRequirements'])->name('server-requirements');
-    Route::get('folder-permissions', [InstallationController::class, 'showFolderPermissions'])->name('folder-permissions');
+Route::get('/{view?}', IndexController::class)
+    ->where('view', '(.*)')
+    ->name('laravel-envato.layout');
 
-    Route::get('environment-variables', [InstallationController::class, 'showEnvironmentVariables'])->name('environment-variables');
-    Route::post('environment-variables', [InstallationController::class, 'submitEnvironmentVariables'])->name('environment-variables.submit');
-
-    Route::get('envato-license', [InstallationController::class, 'showEnvatoLicense'])->name('envato-license');
+Route::prefix('api')->group(function () {
     Route::post('envato-license', [InstallationController::class, 'submitEnvatoLicense'])->name('envato-license.submit');
-
-    Route::get('installation-progress', [InstallationController::class, 'showInstallationProgress'])->name('installation-progress');
 });
 
-Route::get('envato-verify', [EnvatoVerificationController::class, 'index'])->name('envato.verify');
-Route::post('envato-verify', [EnvatoVerificationController::class, 'verify'])->name('envato.verify.submit');
+//Route::prefix('install')->name('install.')->group(function () {
+//    Route::get('/', [InstallationController::class, 'showGettingStarted'])->name('getting-started');
+//    Route::get('server-requirements', [InstallationController::class, 'showServerRequirements'])->name('server-requirements');
+//    Route::get('folder-permissions', [InstallationController::class, 'showFolderPermissions'])->name('folder-permissions');
+//
+//    Route::get('environment-variables', [InstallationController::class, 'showEnvironmentVariables'])->name('environment-variables');
+//    Route::post('environment-variables', [InstallationController::class, 'submitEnvironmentVariables'])->name('environment-variables.submit');
+//
+//    Route::get('envato-license', [InstallationController::class, 'showEnvatoLicense'])->name('envato-license');
+//    Route::post('envato-license', [InstallationController::class, 'submitEnvatoLicense'])->name('envato-license.submit');
+//
+//    Route::get('installation-progress', [InstallationController::class, 'showInstallationProgress'])->name('installation-progress');
+//});
+//
+//Route::get('envato-verify', [EnvatoVerificationController::class, 'index'])->name('envato.verify');
+//Route::post('envato-verify', [EnvatoVerificationController::class, 'verify'])->name('envato.verify.submit');

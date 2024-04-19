@@ -12,7 +12,15 @@ const path = require('path');
  |
  */
 
-mix.setPublicPath('public')
+mix.options({
+    terser: {
+        terserOptions: {
+            compress: {
+                drop_console: true,
+            },
+        },
+    },
+}).setPublicPath('public')
 
 // Configure Mix to use Vue 3
 mix.js('resources/js/laravel-envato.js', 'public').vue({ version: 3 });
@@ -41,6 +49,7 @@ mix.webpackConfig({
     resolve: {
         alias: {
             '@': path.resolve('resources/js'),
+            'ziggy-js': path.resolve('vendor/tightenco/ziggy'),
         },
     },
 });

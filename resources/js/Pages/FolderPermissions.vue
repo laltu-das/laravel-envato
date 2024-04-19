@@ -1,18 +1,19 @@
 <script setup>
-
+import { useRouter } from 'vue-router';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {Link, router} from "@inertiajs/vue3";
 
-defineProps({
-    permissions: Object,
-    errors: Object,
+const props = defineProps({
+  permissions: Object,
+  errors: Object,
 })
 
-const nextStep = () => {
-    router.get(route('install.environment-variables'));
-}
+const router = useRouter();
 
+const nextStep = () => {
+  router.push({ name: 'install.environment-variables' });
+}
 </script>
+
 
 <template>
         <h2 class="text-2xl font-bold text-center">Folder Permissions</h2>

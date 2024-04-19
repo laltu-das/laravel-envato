@@ -1,7 +1,6 @@
 <script setup>
 
 import {ref} from 'vue'
-import {Link, router} from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps({
@@ -47,10 +46,10 @@ const checkAgain = () => {
                 <PrimaryButton @click="checkAgain">
                     Check Again
                 </PrimaryButton>
-                <Link :href="route('install.folder-permissions')"
+                <RouterLink :to="{ name: 'install.folder-permissions' }"
                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Next Step
-                </Link>
+                </RouterLink>
             </div>
         </div>
 </template>

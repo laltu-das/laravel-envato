@@ -1,8 +1,9 @@
 <script setup>
 
 import {ref} from 'vue'
-import {router} from '@inertiajs/vue3'
-
+defineProps({
+  output: String
+})
 const installationSteps = ref([
     {message: 'Configuring database...', done: false},
     {message: 'Applying migrations...', done: false},
@@ -32,7 +33,10 @@ function redirectToDashboard() {
 
 <template>
         <h2 class="text-2xl font-bold text-center">Installation Progress</h2>
-
+  <div>
+    <h1>Artisan Command Output</h1>
+    <pre>{{ output }}</pre>
+  </div>
         <div v-if="!installationComplete">
             <p v-for="step in installationSteps" :key="step.message" class="flex items-center justify-between">
                 {{ step.message }}

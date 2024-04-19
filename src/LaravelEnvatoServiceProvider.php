@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
+use Laltu\LaravelEnvato\Http\Middleware\HandleInertiaRequests;
 use Laltu\LaravelEnvato\Http\Middleware\InstallationCheck;
 use Laltu\LaravelEnvato\Http\Middleware\VerifyEnvatoPurchase;
 
@@ -61,7 +62,6 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
         $router->pushMiddlewareToGroup('web', InstallationCheck::class);
         $router->pushMiddlewareToGroup('api', InstallationCheck::class);
 
-//        $router->aliasMiddleware('install', InstallationCheck::class);
     }
 
     /**
