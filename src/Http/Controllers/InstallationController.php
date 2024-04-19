@@ -52,11 +52,6 @@ class InstallationController extends Controller
         return inertia('EnvironmentVariables', compact('envVariables'));
     }
 
-    public function showEnvatoLicense()
-    {
-        return inertia('EnvatoLicense');
-    }
-
     public function submitEnvatoLicense(EnvatoLicenseRequest $request)
     {
         $response = Http::acceptJson()->post('http://localhost:8001/api/product/sunt-qui-molestiae/verify', ['code' => $request->licenseKey]);
@@ -90,9 +85,6 @@ class InstallationController extends Controller
                 }
             }
         }
-
-        return redirect()->route('install.installation-progress');
-
     }
 
     public function showInstallationProgress()

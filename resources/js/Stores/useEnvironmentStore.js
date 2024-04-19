@@ -1,4 +1,4 @@
-// src/stores/useEnvironmentStore.js
+// src/Stores/useEnvironmentStore.js
 import { defineStore } from 'pinia';
 
 export const useEnvironmentStore = defineStore('environment', {

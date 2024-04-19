@@ -2,29 +2,31 @@
 
 import {ref} from 'vue'
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
-    requirements: Object
+  requirements: Object
 })
 
 const requirements = ref(props.requirements)
 
 const checkAgain = () => {
-    router.reload()
+  router.reload()
 }
 
 </script>
 
 <template>
-        <h2 class="text-2xl font-bold text-center">Server Requirements Check</h2>
-        <p class="text-lg text-gray-600 text-center my-4">
-            Ensuring your server meets all the necessary requirements for
-            Laravel.
-        </p>
-        <div class="w-96 text-center m-auto mt-4">
+  <AppLayout>
+    <h2 class="text-2xl font-bold text-center">Server Requirements Check</h2>
+    <p class="text-lg text-gray-600 text-center my-4">
+      Ensuring your server meets all the necessary requirements for
+      Laravel.
+    </p>
+    <div class="w-96 text-center m-auto mt-4">
 
-            <div v-for="(status, requirement) in requirements" :key="requirement"
-                 class="flex items-center p-1 bg-gray-50 rounded-md">
+      <div v-for="(status, requirement) in requirements" :key="requirement"
+           class="flex items-center p-1 bg-gray-50 rounded-md">
                       <span :class="status ? 'bg-green-200' : 'bg-red-200'"
                             class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full">
                         <svg v-if="status" class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
@@ -38,18 +40,19 @@ const checkAgain = () => {
                           <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                       </span>
-                <span class="ml-3 text-gray-700">{{ requirement }}</span>
-            </div>
+        <span class="ml-3 text-gray-700">{{ requirement }}</span>
+      </div>
 
 
-            <div class="text-center mt-4 flex justify-between">
-                <PrimaryButton @click="checkAgain">
-                    Check Again
-                </PrimaryButton>
-                <RouterLink :to="{ name: 'install.folder-permissions' }"
-                      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Next Step
-                </RouterLink>
-            </div>
-        </div>
+      <div class="text-center mt-4 flex justify-between">
+        <PrimaryButton @click="checkAgain">
+          Check Again
+        </PrimaryButton>
+        <RouterLink :to="{ name: 'install.folder-permissions' }"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Next Step
+        </RouterLink>
+      </div>
+    </div>
+  </AppLayout>
 </template>

@@ -17,8 +17,8 @@
     <link href="https://fonts.bunny.net/css?family=figtree:300,400,500,600" rel="stylesheet"/>
     <link href="{{ asset(mix('laravel-envato.css', 'vendor/laravel-envato')) }}" rel="stylesheet" type="text/css" onerror="alert('laravel-envato.css failed to load. Please refresh the page, re-publish Log Viewer assets, or fix routing for vendor assets.')">
 </head>
-<body class="h-full px-3 lg:px-5 bg-gray-100 dark:bg-gray-900">
-<div id="laravel-envato" class="flex h-full max-h-screen max-w-full">
+<body>
+<div id="laravel-envato">
     <router-view></router-view>
 </div>
 
