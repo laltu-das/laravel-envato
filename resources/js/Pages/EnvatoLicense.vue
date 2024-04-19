@@ -14,7 +14,7 @@ const verifyLicense = async () => {
   errors.value = {};  // Clear previous errors before new submission
 
   try {
-    const response = await axios.post('/api/envato-license', {
+    const response = await axios.post('/api/install/envato-license', {
       envatoItemId: envatoItemId.value,
       licenseKey: licenseKey.value,
     });

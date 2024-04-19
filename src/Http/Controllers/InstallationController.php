@@ -12,12 +12,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 class InstallationController extends Controller
 {
-
-    public function showGettingStarted()
-    {
-        return inertia('GettingStarted');
-    }
-
     public function showServerRequirements()
     {
         $requirements = [
@@ -33,7 +27,7 @@ class InstallationController extends Controller
             'XML PHP Extension' => extension_loaded('xml'),
         ];
 
-        return inertia('ServerRequirements', ['requirements' => $requirements]);
+        return response()->json(['data' => $requirements]);
     }
 
     public function showFolderPermissions(PermissionsChecker $permissionsChecker)
@@ -42,59 +36,65 @@ class InstallationController extends Controller
             config('laravel-envato.permissions')
         );
 
-        return inertia('FolderPermissions', $permissions);
+        return response()->json(['data' => $permissions]);
     }
 
     public function showEnvironmentVariables(EnvironmentManager $environmentManager)
     {
         $envVariables = $environmentManager->getEnvContent();
 
-        return inertia('EnvironmentVariables', compact('envVariables'));
+        return response()->json(['data' => $envVariables]);
     }
 
     public function submitEnvatoLicense(EnvatoLicenseRequest $request)
     {
-        $response = Http::acceptJson()->post('http://localhost:8001/api/product/sunt-qui-molestiae/verify', ['code' => $request->licenseKey]);
+        $response = Http::acceptJson()->post('http://localhost:8001/api/product/sunt-qui-molestiae/verify', [
+            'envatoItemId' => $request->envatoItemId,
+            'licenseKey' => $request->licenseKey
+        ]);
 
         if ($response->successful()) {
             $data = $response->json();
-            if (isset($data['token'])) {
-                // Assuming successful verification
-                $url = "https://support.scriptspheres.com/api/download-file/{$data['token']}";
-
-                $response = Http::acceptJson()->get($url);
-
-                if ($response->successful()) {
-                    // Attempt to extract the filename from the Content-Disposition header
-                    $contentDisposition = $response->header('Content-Disposition');
-                    $filename = null;
-                    if (!empty($contentDisposition)) {
-                        $matches = [];
-                        if (preg_match('/filename=["\']?([^"\']+)/', $contentDisposition, $matches)) {
-                            $filename = $matches[1];
-                        }
-                    }
-
-                    // Define the save path using the extracted or fallback filename
-                    $filePath = base_path($filename);
-
-                    // Save the file
-                    file_put_contents($filePath, $response->body());
-                } else {
-                    echo "Failed to download the file.";
-                }
-            }
+//            if (isset($data['token'])) {
+//                // Assuming successful verification
+//                $url = "https://support.scriptspheres.com/api/download-file/{$data['token']}";
+//
+//                $response = Http::acceptJson()->get($url);
+//
+//                if ($response->successful()) {
+//                    // Attempt to extract the filename from the Content-Disposition header
+//                    $contentDisposition = $response->header('Content-Disposition');
+//                    $filename = null;
+//                    if (!empty($contentDisposition)) {
+//                        $matches = [];
+//                        if (preg_match('/filename=["\']?([^"\']+)/', $contentDisposition, $matches)) {
+//                            $filename = $matches[1];
+//                        }
+//                    }
+//
+//                    // Define the save path using the extracted or fallback filename
+//                    $filePath = base_path($filename);
+//
+//                    // Save the file
+//                    file_put_contents($filePath, $response->body());
+//                } else {
+//                    echo "Failed to download the file.";
+//                }
+//            }
         }
+
+        return response()->json(['message' => $response->json()]);
+
     }
 
     public function showInstallationProgress()
     {
         $output = new BufferedOutput;
 
-        Artisan::call('list', [], $output); // Example command 'list', change to your needed command
+        Artisan::call('list', [], $output);
 
-        $content = $output->fetch(); // Get the output from the buffer
+        $content = $output->fetch();
 
-        return inertia('InstallationProgress',['output' => $content]);
+        return response()->json(['data' => $content]);
     }
 }

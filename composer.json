@@ -16,16 +16,12 @@
         }
     ],
     "require": {
-        "php": "^8.2",
-        "baileyherbert/envato": "^3.1",
-        "illuminate/support": "*",
-        "inertiajs/inertia-laravel": "^1.0",
-        "livewire/livewire": "^3.3",
-        "tightenco/ziggy": "^2.1"
+        "php": "^8.0",
+        "illuminate/support": "^9.21|^10.0|^11.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.17",
-        "phpunit/phpunit": "^10.5"
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^9.0|^10.4"
     },
     "autoload": {
         "psr-4": {

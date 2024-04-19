@@ -1,13 +1,25 @@
 <script setup>
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {useEnvironmentStore} from '@/Stores/useEnvironmentStore';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
+import axios from "axios";
 
 const envVariables = ref('');
 const router = useRouter();
 const environmentStore = useEnvironmentStore();
+
+const fetchEnvironmentVariables = async () => {
+  try {
+    const response = await axios.get('/api/install/environment-variables');
+    envVariables.value = response.data.data;
+  } catch (error) {
+    console.error("Failed to fetch server requirements:", error);
+  }
+};
+
+onMounted(fetchEnvironmentVariables);
 
 const submit = () => {
   environmentStore.submitEnvironmentVariables(envVariables.value);

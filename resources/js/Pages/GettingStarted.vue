@@ -3,6 +3,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
 defineProps({appName: String, appVersion: String});
+
 </script>
 
 <template>

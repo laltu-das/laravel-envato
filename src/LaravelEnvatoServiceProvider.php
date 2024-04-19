@@ -7,29 +7,20 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Inertia\Inertia;
-use Laltu\LaravelEnvato\Http\Middleware\HandleInertiaRequests;
-use Laltu\LaravelEnvato\Http\Middleware\InstallationCheck;
-use Laltu\LaravelEnvato\Http\Middleware\VerifyEnvatoPurchase;
 
 class LaravelEnvatoServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
      */
-    public function boot(Router $router): void
+    public function boot(): void
     {
         /*
          * Optional methods to load your package assets
          */
-
-        Inertia::setRootView('laravel-maker::layout');
-
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'laravel-maker');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'laravel-maker');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-
-        $this->loadMiddlewares($router);
 
         $this->registerAuthorization();
         $this->registerRoutes();
@@ -48,20 +39,6 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
 
         // Registering package commands.
         $this->commands([]);
-    }
-
-    /**
-     * Load custom middlewares
-     *
-     * @param Router $router
-     */
-    private function loadMiddlewares(Router $router): void
-    {
-        $router->pushMiddlewareToGroup('web', VerifyEnvatoPurchase::class);
-        $router->pushMiddlewareToGroup('api', VerifyEnvatoPurchase::class);
-        $router->pushMiddlewareToGroup('web', InstallationCheck::class);
-        $router->pushMiddlewareToGroup('api', InstallationCheck::class);
-
     }
 
     /**
