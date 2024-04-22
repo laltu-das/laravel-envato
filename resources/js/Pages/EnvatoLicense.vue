@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -8,6 +8,7 @@ const envatoItemId = ref('');
 const licenseKey = ref('');
 const errors = ref({});
 const processing = ref(false);
+const artisanResponse = ref("");
 
 const verifyLicense = async () => {
   processing.value = true;
@@ -18,12 +19,16 @@ const verifyLicense = async () => {
       envatoItemId: envatoItemId.value,
       licenseKey: licenseKey.value,
     });
-    // Handle the response if there's any specific action needed on success
-    envatoItemId.value = '';
-    licenseKey.value = '';
-    // Optionally, redirect or perform other actions on success
+
+    // Check if there's a token and run the Artisan command
+    if (response.data && response.data.token) {
+      await runArtisanCommand(response.data.token);
+    } else {
+      console.error('No token provided for running the Artisan command');
+      artisanResponse.value = 'Failed to obtain token for installation.';
+    }
   } catch (error) {
-    if (error.response && error.response.data && error.response.status === 422) {
+    if (error.response && error.response.data.errors && error.response.status === 422) {
       errors.value = error.response.data.errors;  // Capturing Laravel validation errors
     } else {
       // General error handling
@@ -34,7 +39,21 @@ const verifyLicense = async () => {
     processing.value = false;
   }
 }
+
+const runArtisanCommand = async (token) => {
+  processing.value = true;
+  try {
+    const response = await axios.get(`/api/install/installation-progress?token=${token}`);
+    artisanResponse.value = response.data;
+  } catch (error) {
+    console.error("Failed to execute Artisan command:", error);
+    artisanResponse.value = "Error: " + error.message;
+  } finally {
+    processing.value = false;
+  }
+};
 </script>
+
 
 <template>
   <AppLayout>
@@ -56,5 +75,7 @@ const verifyLicense = async () => {
         Verify License
       </PrimaryButton>
     </form>
+    <p v-if="artisanResponse" class="mt-4 text-green-600">{{ artisanResponse }}</p>
+
   </AppLayout>
 </template>

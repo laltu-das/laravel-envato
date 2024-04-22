@@ -7,6 +7,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laltu\LaravelEnvato\Commands\InstallEnvatoProject;
 
 class LaravelEnvatoServiceProvider extends ServiceProvider
 {
@@ -38,7 +39,9 @@ class LaravelEnvatoServiceProvider extends ServiceProvider
         }
 
         // Registering package commands.
-        $this->commands([]);
+        $this->commands([
+            InstallEnvatoProject::class
+        ]);
     }
 
     /**

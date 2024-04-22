@@ -2,6 +2,8 @@
 
 namespace Laltu\LaravelEnvato\Http\Controllers;
 
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Laltu\LaravelEnvato\Http\Requests\EnvatoLicenseRequest;
@@ -46,18 +48,23 @@ class InstallationController extends Controller
         return response()->json(['data' => $envVariables]);
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function submitEnvatoLicense(EnvatoLicenseRequest $request)
     {
-        $response = Http::acceptJson()->post('http://localhost:8001/api/product/sunt-qui-molestiae/verify', [
+        $response = Http::acceptJson()->post('http://localhost:8000/api/product/sunt-qui-molestiae/verify', [
             'envatoItemId' => $request->envatoItemId,
             'licenseKey' => $request->licenseKey
         ]);
 
-        if ($response->successful()) {
-            $data = $response->json();
+//        if ($response->successful()) {
+//            $data = $response->json();
 //            if (isset($data['token'])) {
-//                // Assuming successful verification
-//                $url = "https://support.scriptspheres.com/api/download-file/{$data['token']}";
+//                return response()->json(['message' =>$data]);
+
+        // Assuming successful verification
+//                $url = "http://localhost:8000/api/download-file/{$data['token']}";
 //
 //                $response = Http::acceptJson()->get($url);
 //
@@ -81,17 +88,17 @@ class InstallationController extends Controller
 //                    echo "Failed to download the file.";
 //                }
 //            }
-        }
+//        }
 
-        return response()->json(['message' => $response->json()]);
+        return $response->json();
 
     }
 
-    public function showInstallationProgress()
+    public function showInstallationProgress(Request $request)
     {
         $output = new BufferedOutput;
 
-        Artisan::call('list', [], $output);
+        Artisan::call('install:envato-project', ['token' => $request->token], $output);
 
         $content = $output->fetch();
 

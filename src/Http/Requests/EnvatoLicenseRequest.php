@@ -14,8 +14,8 @@ class EnvatoLicenseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'envatoItemId' => 'required',
-            'licenseKey' => 'required',
+            'envatoItemId' => 'required|numeric',
+            'licenseKey' => 'required|string',
         ];
     }
 

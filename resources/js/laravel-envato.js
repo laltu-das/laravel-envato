@@ -4,7 +4,7 @@ import axios from 'axios';
 import { createRouter, createWebHistory } from 'vue-router';
 import GettingStarted from "@/Pages/GettingStarted.vue";
 import ServerRequirements from "@/Pages/ServerRequirements.vue";
-import InstallationProgress from "@/Pages/InstallationProgress.vue";
+import InstallationProgress from "@/Pages/InstallationComplete.vue";
 import FolderPermissions from "@/Pages/FolderPermissions.vue";
 import EnvironmentVariables from "@/Pages/EnvironmentVariables.vue";
 import EnvatoLicense from "@/Pages/EnvatoLicense.vue";
