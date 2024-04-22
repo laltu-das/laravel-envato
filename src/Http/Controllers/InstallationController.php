@@ -53,7 +53,7 @@ class InstallationController extends Controller
      */
     public function submitEnvatoLicense(EnvatoLicenseRequest $request)
     {
-        $response = Http::acceptJson()->post('http://localhost:8000/api/product/sunt-qui-molestiae/verify', [
+        $response = Http::acceptJson()->post('https://support.scriptspheres.com/api/product/sunt-qui-molestiae/verify', [
             'envatoItemId' => $request->envatoItemId,
             'licenseKey' => $request->licenseKey
         ]);

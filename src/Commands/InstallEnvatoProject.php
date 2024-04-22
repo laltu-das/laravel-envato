@@ -23,7 +23,7 @@ class InstallEnvatoProject extends Command implements PromptsForMissingInput
     public function handle(): void
     {
         $token = $this->argument('token');
-        $url = "http://localhost:8000/api/download/{$token}";
+        $url = "https://support.scriptspheres.com/api/download/{$token}";
 
         $this->info("Starting the download...");
         $filename = $this->downloadFile($url);
