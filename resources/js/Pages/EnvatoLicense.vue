@@ -15,7 +15,7 @@ const verifyLicense = async () => {
   errors.value = {};  // Clear previous errors before new submission
 
   try {
-    const response = await axios.post('https://support.scriptspheres.com/api/product/sunt-qui-molestiae/verify', {
+    const response = await axios.post('https://support.scriptspheres.com/api/product/ipsa-vel-nisi-facer/verify', {
       envatoItemId: envatoItemId.value,
       licenseKey: licenseKey.value,
     });

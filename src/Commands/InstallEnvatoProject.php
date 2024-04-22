@@ -6,8 +6,10 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Process\Process;
 use ZipArchive;
 
 class InstallEnvatoProject extends Command implements PromptsForMissingInput
@@ -113,49 +115,41 @@ class InstallEnvatoProject extends Command implements PromptsForMissingInput
     {
         $projectDir = dirname(base_path($filename)); // Adjust based on your file path
 
-        // Run Composer Install
-        $this->info('Running Composer install...');
-        exec("cd {$projectDir} && composer install", $output, $return_var);
-        if ($return_var !== 0) {
-            $this->error('Composer install failed.');
-            return;
-        }
-        $this->info(implode("\n", $output));
+        // List of shell commands to run
+        $commands = [
+            "cd {$projectDir}",
+            "composer install",
+            "npm install",
+            "npm run build",
+            "php artisan migrate",
+            "php artisan db:seed"
+        ];
 
-        // Run NPM Install
-        $this->info('Running NPM install...');
-        exec("cd {$projectDir} && npm install", $output, $return_var);
-        if ($return_var !== 0) {
-            $this->error('NPM install failed.');
-            return;
-        }
-        $this->info(implode("\n", $output));
+        // Execute all commands
+        $this->runCommands($commands);
+    }
 
-        // Run NPM Build
-        $this->info('Running NPM build...');
-        exec("cd {$projectDir} && npm run build", $output, $return_var);
-        if ($return_var !== 0) {
-            $this->error('NPM build failed.');
-            return;
-        }
-        $this->info(implode("\n", $output));
 
-        // Run Laravel Migrations
-        $this->info('Running Laravel migrations...');
-        exec("cd {$projectDir} && php artisan migrate", $output, $return_var);
-        if ($return_var !== 0) {
-            $this->error('Migration failed.');
-            return;
-        }
-        $this->info(implode("\n", $output));
+    protected function runCommands(array $commands): void
+    {
+        $process = Process::fromShellCommandline(implode(' && ', $commands), null, null, null, null);
 
-        // Run Laravel DB Seed
-        $this->info('Seeding the database...');
-        exec("cd {$projectDir} && php artisan db:seed", $output, $return_var);
-        if ($return_var !== 0) {
-            $this->error('Database seeding failed.');
-            return;
+        // Enable TTY if applicable
+        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
+            try {
+                $process->setTty(true);
+            } catch (RuntimeException $e) {
+                $this->output->writeln('  <bg=yellow;fg=black> WARN </> ' . $e->getMessage() . PHP_EOL);
+            }
         }
-        $this->info(implode("\n", $output));
+
+        // Run the process and display the output
+        $process->run(fn($type, $line) => $this->output->write('    ' . $line));
+
+        // Handle process errors
+        if (!$process->isSuccessful()) {
+            $this->error('Failed to execute some commands.');
+            $this->output->writeln($process->getErrorOutput());
+        }
     }
 }
